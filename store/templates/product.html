@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <br /><br />
+
+    <div class="card mb-3">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="Product Image">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <center>
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <br/>
+                        <p class="card-text justify-content-center">{{ product.description }}</p>
+                        
+
+                        {% if product.is_sale %}
+                        <div class="d-flex justify-content-center small text-warning mb-2">
+                            <div class="bi-star-fill"></div>
+                            &nbsp; &nbsp; Sale &nbsp; &nbsp;
+                            <div class="bi-star-fill"></div>
+                        </div>
+                        <!-- Product price-->
+                        <strike>${{ product.price }}</strike>
+                        &nbsp;
+                        ${{ product.sale_price }}
+                        {% else %}
+
+                        ${{ product.price }}
+                        <br/><br/>ID: {{product.id}}
+                        {% endif %}
+
+                        <br /><br />
+                        <a href="{% url 'home' %}" class="btn btn-secondary">Home</a>
+                        <button type="button" value="{{product.id}}" class="btn btn-secondary" id="add-cart">Add to cart</button>
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+
+
+<script>
+    $(function () {
+        $(document).on('click', '#add-cart', function (e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: 'url cart_add',
+                data: $('#add-cart').serialize(),
+                success: function (response) {
+                    alert('form was submitted');
+                }
+                 
+            });
+        });
+    });
+</script>
+{% endblock %}
